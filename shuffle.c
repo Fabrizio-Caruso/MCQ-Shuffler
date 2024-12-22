@@ -141,15 +141,30 @@ void write_shuffled_mcqs(void)
     uint8_t answer;
     
     
-    char *filename = "versions.txt";
+    char filename[15];
     
-    FILE *fp = fopen(filename, "w");
-        
+    filename[0] = 'v';
+    filename[1] = 'e';
+    filename[2] = 'r';
+    filename[3] = 's';
+    filename[4] = 'i';
+    filename[5] = 'o';
+    filename[6] = 'n';
+
+    filename[7] = '_';
+    filename[8] = '?';
+    filename[9] = '.';
+    filename[10] = 't';
+    filename[11] = 'x';
+    filename[12] = 't';
+    filename[13] = '\0';
+
     for(version=0;version<5;++version)
     {
         
+        filename[8] = 48 + version;
+        FILE *fp = fopen(filename, "w");
 
-        
         printf("Writing version: %d\n", version);
         // filename[7] = version+48;
         
@@ -171,9 +186,9 @@ void write_shuffled_mcqs(void)
                 printf("Answer: %s\n", answers[shuffle[question][version]][shuffle[answer][version]]);
             }
         }
-        
+        fclose(fp);
+
     }
-    fclose(fp);
 
 }
 
@@ -201,6 +216,6 @@ int main(void)
         printf("-----------------------------------------\n");
     }
     write_shuffled_mcqs();
-    while(1){};
+    // while(1){};
     return 0;
 }
