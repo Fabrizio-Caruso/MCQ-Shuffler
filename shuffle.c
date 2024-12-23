@@ -3,6 +3,13 @@
 #include <stdio.h>
 #include <string.h>
 
+#define QUESTION_DASH    0
+#define QUESTION_NUMBER  1
+
+#define ANSWER_DASH      1
+#define ANSWER_NUMBER    0
+
+
 static uint8_t shuffle[5][5] =
 {
     {0, 1, 2, 3, 4},
@@ -109,23 +116,6 @@ int read_mcq(void)
         }
     }
 
-        
-        // ++answer;
-        // if(answer==6)
-        // {
-            // answer = 0;
-            // ++question;
-        // }
-        // else
-        // {
-            // strcpy(answers[question][answer],buffer);
-        // }
-        // if(question==5)
-            // break;
-        
-
-    
-    // close the file
     fclose(fp);
     printf("mcq file read");
     return 0;
@@ -141,48 +131,66 @@ void write_shuffled_mcqs(void)
     uint8_t answer;
     
     
-    char filename[15];
+    char filename[30];
     
-    filename[0] = 'v';
-    filename[1] = 'e';
-    filename[2] = 'r';
-    filename[3] = 's';
-    filename[4] = 'i';
-    filename[5] = 'o';
-    filename[6] = 'n';
+    strcpy(filename,"./versions/version?.txt");
+    // filename[0] = 'v';
+    // filename[1] = 'e';
+    // filename[2] = 'r';
+    // filename[3] = 's';
+    // filename[4] = 'i';
+    // filename[5] = 'o';
+    // filename[6] = 'n';
 
-    filename[7] = '_';
-    filename[8] = '?';
-    filename[9] = '.';
-    filename[10] = 't';
-    filename[11] = 'x';
-    filename[12] = 't';
-    filename[13] = '\0';
+    // filename[7] = '_';
+    // filename[8] = '?';
+    // filename[9] = '.';
+    // filename[10] = 't';
+    // filename[11] = 'x';
+    // filename[12] = 't';
+    // filename[13] = '\0';
 
     for(version=0;version<5;++version)
     {
         
-        filename[8] = 48 + version;
+        filename[18] = 48 + version + 1;
         FILE *fp = fopen(filename, "w");
 
-        printf("Writing version: %d\n", version);
+        printf("Writing version: %d\n", version+1);
         // filename[7] = version+48;
         
         printf("File name: %s\n", filename);
         
         for(question=0;question<5;++question)
         {
-            // printf("Wrting question: %d\n", question);
-            // fprintf(fp,"Question %d: %s\n",question,"Hello world!");
-            fprintf(fp,"\n%s\n",questions[shuffle[question][version]]);
-            // fprintf(fp,"%s", shuffle[question][version]);
+            if(QUESTION_NUMBER)
+            {
+                fprintf(fp,"\n%d. %s\n",question+1, questions[shuffle[question][version]]);
+            }
+            else if(QUESTION_DASH)
+            {
+                fprintf(fp,"\n%s\n",questions[shuffle[question][version]]);
+            }
+            else
+            {
+                fprintf(fp,"\n- %s\n",questions[shuffle[question][version]]);
+            }
             printf("%s\n", questions[shuffle[question][version]]);
 
             for(answer=0;answer<5; ++answer)
             {
-                // fprintf(fp,"%s",answers[shuffle[question][version]][shuffle[answer][version]]);
-                fprintf(fp,"- %s\n", answers[shuffle[question][version]][shuffle[answer][version]]);
-
+                if(ANSWER_NUMBER)
+                {
+                    fprintf(fp,"%d. %s\n", answer+1, answers[shuffle[question][version]][shuffle[answer][version]]);
+                }
+                else if(ANSWER_DASH)
+                {
+                    fprintf(fp,"- %s\n", answers[shuffle[question][version]][shuffle[answer][version]]);
+                }
+                else
+                {
+                    fprintf(fp,"%s\n", answers[shuffle[question][version]][shuffle[answer][version]]);
+                }
                 printf("%s\n", answers[shuffle[question][version]][shuffle[answer][version]]);
             }
         }
