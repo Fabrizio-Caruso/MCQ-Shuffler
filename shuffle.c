@@ -9,6 +9,8 @@
 #define ANSWER_DASH      1
 #define ANSWER_NUMBER    0
 
+// Range: 1-5
+#define VERSIONS         5
 
 static uint8_t shuffle[5][5] =
 {
@@ -134,30 +136,14 @@ void write_shuffled_mcqs(void)
     char filename[30];
     
     strcpy(filename,"./versions/version?.txt");
-    // filename[0] = 'v';
-    // filename[1] = 'e';
-    // filename[2] = 'r';
-    // filename[3] = 's';
-    // filename[4] = 'i';
-    // filename[5] = 'o';
-    // filename[6] = 'n';
 
-    // filename[7] = '_';
-    // filename[8] = '?';
-    // filename[9] = '.';
-    // filename[10] = 't';
-    // filename[11] = 'x';
-    // filename[12] = 't';
-    // filename[13] = '\0';
-
-    for(version=0;version<5;++version)
+    for(version=0;version<VERSIONS;++version)
     {
         
         filename[18] = 48 + version + 1;
         FILE *fp = fopen(filename, "w");
 
         printf("Writing version: %d\n", version+1);
-        // filename[7] = version+48;
         
         printf("File name: %s\n", filename);
         
