@@ -8,8 +8,8 @@ static uint8_t shuffle[5][5] =
     {0, 1, 2, 3, 4},
     {1, 0, 3, 4, 2},
     {2, 4, 1, 0, 3},
+    {4, 3, 0, 2, 1},
     {3, 2, 4, 1, 0},
-    {4, 3, 0, 2, 1}
 };
 
 #define MAX_CHARS 1000
@@ -174,16 +174,16 @@ void write_shuffled_mcqs(void)
         {
             // printf("Wrting question: %d\n", question);
             // fprintf(fp,"Question %d: %s\n",question,"Hello world!");
-            fprintf(fp,"Question %d: %s\n",question,questions[shuffle[question][version]]);
+            fprintf(fp,"\n%s\n",questions[shuffle[question][version]]);
             // fprintf(fp,"%s", shuffle[question][version]);
-            printf("Question: %s\n", questions[shuffle[question][version]]);
+            printf("%s\n", questions[shuffle[question][version]]);
 
             for(answer=0;answer<5; ++answer)
             {
                 // fprintf(fp,"%s",answers[shuffle[question][version]][shuffle[answer][version]]);
-                fprintf(fp,"Answer %d: %s\n", answer, answers[shuffle[question][version]][shuffle[answer][version]]);
+                fprintf(fp,"- %s\n", answers[shuffle[question][version]][shuffle[answer][version]]);
 
-                printf("Answer: %s\n", answers[shuffle[question][version]][shuffle[answer][version]]);
+                printf("%s\n", answers[shuffle[question][version]][shuffle[answer][version]]);
             }
         }
         fclose(fp);
