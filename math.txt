@@ -1,3 +1,6 @@
+Non-cyclic 5x5 Latin Square
+
+
 For any N, I need to fill an NxN matrix with numbers from 1 to N in such a way that
 (1) any number occurs exactly once on every row and column;
 (2) no rows and no columns can be rotations one of the other (e.g., no row/column 1,2,3,4 together with 3,4,1,2).  

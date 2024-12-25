@@ -4,5 +4,7 @@ all:
 	$(CC) shuffle.c -o shuffle.exe
 
 clean:
-	rm ./versions/*.txt
+	rm -rf ./versions/*.txt
+	rm -rf ./versions/*.html
+
 
