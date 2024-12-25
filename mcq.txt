@@ -1,10 +1,8 @@
 Questionnaire (TITLE)
-
-
-
 What is the New Deal? (Q1)
 
-Answer1toQuestion1
+Answer1toQuestion1.
+Besize we give more answer1toQuestion1
 
 Answer2toQuestion1
 

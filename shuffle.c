@@ -11,6 +11,7 @@
 
 // Range: 1-5
 #define VERSIONS         5
+#define QUESTION_LINE 6
 
 static uint8_t shuffle[5][5] =
 {
@@ -21,8 +22,9 @@ static uint8_t shuffle[5][5] =
     {4, 3, 0, 2, 1},
 };
 
-#define MAX_TITLE 500
+#define MAX_TITLE 900
 #define MAX_CHARS 9000
+
 
 char buffer[MAX_CHARS];
 
@@ -30,7 +32,6 @@ char buffer[MAX_CHARS];
 char title[MAX_TITLE];
 
 char questions[5][MAX_CHARS];
-
 
 char answers[5][5][MAX_CHARS];
 
@@ -42,6 +43,9 @@ int read_mcq(void)
     
     uint8_t line;
     uint8_t question;
+    size_t offset;
+    size_t buffer_size;
+    uint8_t empty_line;
 
     if (fp == NULL)
     {
@@ -55,29 +59,50 @@ int read_mcq(void)
 
     line = 0;
     question = 0;
+    buffer_size = 0;
+    offset = 0;
+    empty_line = 1;
     
     while (fgets(buffer, MAX_CHARS, fp) && question<5)
     {
+        buffer_size = strlen(buffer);
         if(strcmp(buffer,"\n"))
         {
-            printf("%d\n", line);
-            printf("%s\n", buffer);
+            
+            printf("Line   : %d\n", line);
+            printf("Buffer : %s\n", buffer);
             if(!line)
             {
-                strcpy(questions[question],buffer);
+                // strcpy(questions[question]+offset," ");
+                strcpy(questions[question]+offset,buffer);
+
             }
             else
             {
-                strcpy(answers[question][line-1],buffer);
+                // strcpy(answers[question][line-1]," ");
+                strcpy(answers[question][line-1]+offset,buffer);
             }
-
-            ++line;
-            if(line==6)
+            offset+=buffer_size;
+            empty_line = 0;
+        }
+        else
+        {
+            printf("Empty line\n");
+            offset = 0;
+            
+            if(!empty_line)
             {
-                line=0;
-                ++question;
+                ++line;
+                
+                if(line==QUESTION_LINE)
+                {
+                    line=0;
+                    ++question;
+                }
+                empty_line=1;
             }
         }
+    
     }
 
     fclose(fp);

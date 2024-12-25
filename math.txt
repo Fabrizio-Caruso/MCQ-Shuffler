@@ -1,0 +1,24 @@
+For any N, I need to fill an NxN matrix with numbers from 1 to N in such a way that
+(1) any number occurs exactly once on every row and column;
+(2) no rows and no columns can be rotations one of the other (e.g., no row/column 1,2,3,4 together with 3,4,1,2).  
+
+So the first constraint is a bit like an empty NxN sudoku with no blocks. The second constraint is about avoiding rotations.
+
+Clearly no solution for N=1,2,3.
+
+For N=4, I can find this solution
+1 2 3 4
+
+2 4 1 3
+
+3 1 4 2
+
+4 3 2 1
+
+I cannot find any solution for N=5 (I could prove or disprove this by enumerating all sudoku solutions but I wonder whether this is a known problem).
+
+I think there are lots of solutions for N=9 (like an empty sudoku problem with no rotations).
+
+How can I efficiently solve this problem for any N (when the problem has a solution)?
+
+For which N, does this problem have a solution? All N excluding 1,2,3,5 ?? Can this be related to the Fibonacci sequence?? I guess not. 
