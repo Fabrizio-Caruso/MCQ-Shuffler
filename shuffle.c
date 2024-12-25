@@ -21,61 +21,18 @@ static uint8_t shuffle[5][5] =
     {4, 3, 0, 2, 1},
 };
 
-#define MAX_CHARS 1000
+#define MAX_TITLE 500
+#define MAX_CHARS 9000
 
 char buffer[MAX_CHARS];
 
 
-char title[100];
+char title[MAX_TITLE];
 
-char questions[5][MAX_CHARS] = 
-    {
-        "Question1",
-        "Question2",
-        "Question3",
-        "Question4",
-        "Question5"
-    };
+char questions[5][MAX_CHARS];
 
 
-char answers[5][5][MAX_CHARS] = 
-{
-    {
-        "Answer1toQuestion1",
-        "Answer1toQuestion2",
-        "Answer1toQuestion3",
-        "Answer1toQuestion4",
-        "Answer1toQuestion5",
-    },
-    {
-        "Answer2toQuestion1",
-        "Answer2toQuestion2",
-        "Answer2toQuestion3",
-        "Answer2toQuestion4",
-        "Answer2toQuestion5",
-    },
-    {
-        "Answer3toQuestion1",
-        "Answer3toQuestion2",
-        "Answer3toQuestion3",
-        "Answer3toQuestion4",
-        "Answer3toQuestion5",
-    },
-    {
-        "Answer4toQuestion1",
-        "Answer4toQuestion2",
-        "Answer4toQuestion3",
-        "Answer4toQuestion4",
-        "Answer4toQuestion5",
-    },
-    {
-        "Answer5toQuestion1",
-        "Answer5toQuestion2",
-        "Answer5toQuestion3",
-        "Answer5toQuestion4",
-        "Answer5toQuestion5",
-    }
-};
+char answers[5][5][MAX_CHARS];
 
 
 int read_mcq(void)
@@ -85,8 +42,6 @@ int read_mcq(void)
     
     uint8_t line;
     uint8_t question;
-    // uint8_t answer;
-
 
     if (fp == NULL)
     {
@@ -94,7 +49,7 @@ int read_mcq(void)
         return 1;
     }
 
-    fgets(buffer, 100, fp);
+    fgets(buffer, MAX_TITLE, fp);
     printf("%s", buffer);
     strcpy(title, buffer);
 
@@ -103,21 +58,25 @@ int read_mcq(void)
     
     while (fgets(buffer, MAX_CHARS, fp) && question<5)
     {
-        printf("%d\n", line);
-        printf("%s\n", buffer);
-        if(!line)
+        if(strcmp(buffer,"\n"))
         {
-            strcpy(questions[question],buffer);
-        }
-        else
-        {
-            strcpy(answers[question][line-1],buffer);
-        }
-        ++line;
-        if(line==6)
-        {
-            line=0;
-            ++question;
+            printf("%d\n", line);
+            printf("%s\n", buffer);
+            if(!line)
+            {
+                strcpy(questions[question],buffer);
+            }
+            else
+            {
+                strcpy(answers[question][line-1],buffer);
+            }
+
+            ++line;
+            if(line==6)
+            {
+                line=0;
+                ++question;
+            }
         }
     }
 
