@@ -26,6 +26,8 @@ static uint8_t shuffle[5][5] =
 char buffer[MAX_CHARS];
 
 
+char title[100];
+
 char questions[5][MAX_CHARS] = 
     {
         "Question1",
@@ -92,8 +94,9 @@ int read_mcq(void)
         return 1;
     }
 
-    // reading line by line, max 256 bytes
-    // const unsigned MAX_LENGTH = 256;
+    fgets(buffer, 100, fp);
+    printf("%s", buffer);
+    strcpy(title, buffer);
 
     line = 0;
     question = 0;
@@ -124,7 +127,7 @@ int read_mcq(void)
 }
 
 
-void write_shuffled_mcqs(void)
+void write_ASCII_shuffled_mcqs(void)
 {
     uint8_t version;
     
@@ -203,74 +206,84 @@ void printHTMLText(FILE *f, const char *text)
 
 void printQuestion(FILE *f, const char *text)
 {
-  fprintf(f, "<h3><br>");
-  printHTMLText(f,text);
-  fprintf(f,"</h3>");
+    fprintf(f, "<h3><br>");
+    printHTMLText(f,text);
+    fprintf(f,"</h3>");
 }
 
 
 void printAnswer(FILE *f, const char *text)
 {
-  fprintf(f,
+    fprintf(f,
     "<tr><!-- start of table row -->\n"
     "<td>%s</td><!-- number -->\n"
     "<td>",
     "&#x25A1;");
-  printHTMLText(f, text);
-  fprintf(f,
+    printHTMLText(f, text);
+    fprintf(f,
     "</td><!-- Title -->\n"
     "</tr><!-- end of table row -->\n");
 }
 
 
 
-void printDoc(
-  FILE *f, const char *title)
+void write_HTML_shuffled_mcqs(void)
 {
-  uint8_t version;
-  uint8_t question;
-  uint8_t answer;
-  
-  fprintf(f,
-    "<!DOCTYPE html>\n"
-    "<html>\n"
-    "<head>\n"
-    "<title>");
-  printHTMLText(f, title);
-  fprintf(f,
-    "</title>\n"
-    "</head>\n");
-  fprintf(f, "<h1>\n");
-  fprintf(f, title);
-  fprintf(f, "</h1>\n");
+    uint8_t version;
+    uint8_t question;
+    uint8_t answer;
+    char filename[30];
 
-fprintf(f,
-    "<body>\n"
-    );
+    
+    strcpy(filename,"./versions/version?.html");
 
-    for(version=0;version<1;++version)
+    for(version=0;version<VERSIONS;++version)
     {
+        
+        filename[18] = 48 + version + 1;
+        FILE *fp = fopen(filename, "w");
+        
+        fprintf(fp,
+        "<!DOCTYPE html>\n"
+        "<html>\n"
+        "<head>\n"
+        "<title>");
+        printHTMLText(fp, title);
+        fprintf(fp,
+        "</title>\n"
+        "</head>\n");
+        fprintf(fp, "<h1>\n");
+        fprintf(fp, title);
+        fprintf(fp, "</h1>\n");
+
+        fprintf(fp,
+        "<body>\n"
+        );
+        
         for(question=0;question<5;++question)
         {
-            printQuestion(stdout, questions[shuffle[question][version]]);
+            printQuestion(fp, questions[shuffle[question][version]]);
             
-            fprintf(f,
+            fprintf(fp,
             "<table><!-- start of table -->\n"
             "<tr><!-- start of table head row -->\n"
             "</tr><!-- end of table head row -->\n");
             
             for(answer=0;answer<5;++answer)
             {
-                printAnswer(stdout, answers[shuffle[question][version]][shuffle[answer][version]]);
+                printAnswer(fp, answers[shuffle[question][version]][shuffle[answer][version]]);
             }
-            fprintf(f,
-            "</table><!-- end of table -->\n");        }
+            fprintf(fp,
+            "</table><!-- end of table -->\n");        
+        }
+
+        fprintf(fp,
+        "</body>\n"
+        "</html>\n");
+        fclose(fp);
     }
 
 
-  fprintf(f,
-    "</body>\n"
-    "</html>\n");
 }
 
 
@@ -296,9 +309,9 @@ int main(void)
         }
         printf("-----------------------------------------\n");
     }
-    write_shuffled_mcqs();
+    write_ASCII_shuffled_mcqs();
     
-    printDoc(stdout, "Questionnaire"); 
+    write_HTML_shuffled_mcqs(); 
 
     
     return 0;
