@@ -9,11 +9,13 @@
 #define ANSWER_DASH      1
 #define ANSWER_NUMBER    0
 
+// TODO: Generalize this program to several question/answer values.
+
 // Range: 1-5
 #define VERSIONS         5
 #define QUESTION_LINE 6
 
-// 5x5 non-rotational Latin Square
+// 5x5 non-cyclic Latin Square
 static uint8_t shuffle[5][5] =
 {
     {0,1,2,3,4},
@@ -60,9 +62,24 @@ int read_mcq(void)
         return 1;
     }
 
-    fgets(buffer, MAX_TITLE, fp);
-    printf("%s", buffer);
-    strcpy(title, buffer);
+    offset = 0;
+
+    while (fgets(buffer, MAX_TITLE, fp))
+    {
+        if(strcmp(buffer,"\n"))
+        {
+            buffer_size = strlen(buffer);
+            strcpy(title+offset,buffer);
+            offset+=buffer_size;
+        }
+        else
+        {
+            break;
+        }
+    }
+    // fgets(buffer, MAX_TITLE, fp);
+    printf("Title: %s\n-------------------", title);
+    // strcpy(title, buffer);
 
     line = 0;
     question = 0;
@@ -95,10 +112,10 @@ int read_mcq(void)
         else
         {
             printf("Empty line\n");
-            offset = 0;
             
             if(!empty_line)
             {
+                offset = 0;
                 ++line;
                 
                 if(line==QUESTION_LINE)
@@ -113,7 +130,7 @@ int read_mcq(void)
     }
 
     fclose(fp);
-    printf("mcq file read");
+    printf("mcq file read\n");
     return 0;
 }
 
@@ -140,6 +157,8 @@ void write_ASCII_shuffled_mcqs(void)
         printf("Writing version: %d\n", version+1);
         
         printf("File name: %s\n", filename);
+        
+        fprintf(fp,"%s\n", title);
         
         for(question=0;question<5;++question)
         {

@@ -1,5 +1,6 @@
 Questionnaire (TITLE)
-
+Second title line
+Third title line
 
 What is the New Deal? (Q1)
 
@@ -14,8 +15,6 @@ Answer4toQuestion1
 
 Answer5toQuestion1
 
-
-
 Give a description of capitalism? (Q2)
 
 Answer1toQuestion2
@@ -27,8 +26,6 @@ Answer3toQuestion2
 Answer4toQuestion2
 
 Answer5toQuestion2
-
-
 
 What is macro-economics? (Q3)
 
@@ -42,8 +39,6 @@ Answer4toQuestion3
 
 Answer5toQuestion3
 
-
-
 What is finance about? (Q4)
 
 Answer1toQuestion4
@@ -55,8 +50,6 @@ Answer3toQuestion4
 Answer4toQuestion4
 
 Answer5toQuestion4
-
-
 
 What is inflation? (Q5)
 
