@@ -243,13 +243,13 @@ void write_HTML_shuffled_mcqs(void)
         fprintf(fp,
         "</title>\n"
         "</head>\n");
+
+
+        fprintf(fp,
+        "<body>\n");
         fprintf(fp, "<h1>\n");
         fprintf(fp, title);
         fprintf(fp, "</h1>\n");
-
-        fprintf(fp,
-        "<body>\n"
-        );
         
         for(question=0;question<5;++question)
         {
