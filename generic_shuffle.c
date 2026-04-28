@@ -24,6 +24,14 @@
 
 uint8_t (*shuffle)[5]; 
 
+static uint8_t shuffle4[4][4] =
+{
+    {0,1,2,3},
+    {1,0,3,2},
+    {2,3,1,0},
+    {3,2,0,1}
+};
+
 static uint8_t shuffle5[5][5] =
 {
     {0,1,2,3,4},
