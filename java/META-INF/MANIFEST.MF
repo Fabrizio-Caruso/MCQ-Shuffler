@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Created-By: 26 (Oracle Corporation)
+Main-Class: MCQManager
+
+
