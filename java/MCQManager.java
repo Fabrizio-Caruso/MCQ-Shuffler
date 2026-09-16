@@ -179,7 +179,7 @@ public class MCQManager extends JFrame {
         preview.append("Title: ").append(titleField.getText()).append("\n");
         preview.append("=".repeat(50)).append("\n\n");
 
-        for (int version = 0; version < 2; version++) { // Show first 2 versions
+        for (int version = 0; version < 5; version++) { // Show first 2 versions
             preview.append("VERSION ").append(version + 1).append("\n");
             preview.append("-".repeat(50)).append("\n");
 
